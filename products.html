@@ -1,0 +1,1564 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products - Ngwe Pone Gyi Construction</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #fafbfc;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Standardized Icon System */
+        .icon {
+            width: 20px;
+            height: 20px;
+            stroke-width: 2;
+            stroke: currentColor;
+            fill: none;
+            flex-shrink: 0;
+        }
+
+        .icon-xs {
+            width: 12px;
+            height: 12px;
+        }
+
+        .icon-sm {
+            width: 16px;
+            height: 16px;
+        }
+
+        .icon-md {
+            width: 24px;
+            height: 24px;
+        }
+
+        .icon-lg {
+            width: 32px;
+            height: 32px;
+        }
+
+        .icon-xl {
+            width: 40px;
+            height: 40px;
+        }
+
+        /* Responsive icon scaling */
+        @media (max-width: 768px) {
+            .icon {
+                width: 18px;
+                height: 18px;
+            }
+
+            .icon-sm {
+                width: 14px;
+                height: 14px;
+            }
+
+            .icon-md {
+                width: 20px;
+                height: 20px;
+            }
+
+            .icon-lg {
+                width: 28px;
+                height: 28px;
+            }
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 260px;
+            background: white;
+            border-right: 1px solid #e5e7eb;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar.collapsed {
+            width: 70px;
+        }
+
+        .sidebar-header {
+            padding: 1.25rem;
+            border-bottom: 1px solid #f3f4f6;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo-container {
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
+        }
+
+        .logo-text {
+            margin-left: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar.collapsed .logo-text {
+            opacity: 0;
+            width: 0;
+            overflow: hidden;
+        }
+
+        .sidebar-toggle {
+            background: #f3f4f6;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .sidebar-toggle:hover {
+            background: #e5e7eb;
+        }
+
+        .sidebar-menu {
+            padding: 0.75rem;
+            flex: 1;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 12px;
+            margin-bottom: 3px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: #374151;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .menu-item:hover {
+            background: #f9fafb;
+            color: #374151;
+            transform: translateX(2px);
+        }
+
+        .menu-item.active {
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
+        }
+
+        .menu-item .icon {
+            margin-right: 10px;
+        }
+
+        .menu-text {
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .sidebar.collapsed .menu-text {
+            opacity: 0;
+            width: 0;
+            overflow: hidden;
+        }
+
+        .order-badge {
+            background: #f97316;
+            color: white;
+            font-size: 0.7rem;
+            padding: 3px 6px;
+            border-radius: 10px;
+            margin-left: auto;
+            font-weight: 600;
+        }
+
+        .sidebar.collapsed .order-badge {
+            display: none;
+        }
+
+        .sidebar-footer {
+            padding: 0.75rem;
+            border-top: 1px solid #f3f4f6;
+        }
+
+        .logout-btn {
+            width: 100%;
+            background: transparent;
+            border: 1px solid #e5e7eb;
+            color: #6b7280;
+            padding: 10px 12px;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+
+        .logout-btn:hover {
+            color: #dc2626;
+            border-color: #fecaca;
+            background: #fef2f2;
+        }
+
+        .main-content {
+            margin-left: 260px;
+            padding: 1.5rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            min-height: 100vh;
+        }
+
+        .main-content.expanded {
+            margin-left: 70px;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .page-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 0.25rem;
+        }
+
+        .page-subtitle {
+            color: #6b7280;
+            font-size: 1rem;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+            border: none;
+            border-radius: 10px;
+            padding: 0.625rem 1.25rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(249, 115, 22, 0.3);
+            color: white;
+        }
+
+        .btn-outline-primary {
+            border: 1px solid #f97316;
+            color: #f97316;
+            background: transparent;
+            border-radius: 10px;
+            padding: 0.625rem 1.25rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-outline-primary:hover {
+            background: #f97316;
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        .filters-section {
+            background: white;
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid #f3f4f6;
+        }
+
+        .filters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            align-items: end;
+        }
+
+        .form-group {
+            margin-bottom: 0;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 0.5rem;
+            display: block;
+            font-size: 0.9rem;
+        }
+
+        .form-control,
+        .form-select {
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 0.625rem 0.875rem;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            background: #ffffff;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #f97316;
+            box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
+            outline: none;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.25rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid #f3f4f6;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .product-image {
+            height: 180px;
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-status {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            font-size: 0.7rem;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .status-active {
+            color: #166534;
+            border: 1px solid #dcfce7;
+        }
+
+        .status-low {
+            color: #92400e;
+            border: 1px solid #fef3c7;
+        }
+
+        .status-out {
+            color: #dc2626;
+            border: 1px solid #fee2e2;
+        }
+
+        .product-info {
+            padding: 1.25rem;
+        }
+
+        .product-category {
+            font-size: 0.75rem;
+            color: #f97316;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 0.25rem;
+            line-height: 1.3;
+        }
+
+        .product-brand {
+            font-size: 0.85rem;
+            color: #6b7280;
+            margin-bottom: 0.75rem;
+        }
+
+        .product-description {
+            font-size: 0.85rem;
+            color: #6b7280;
+            line-height: 1.4;
+            margin-bottom: 1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .product-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .product-price {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #f97316;
+        }
+
+        .product-stock {
+            font-size: 0.85rem;
+            color: #6b7280;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-sm {
+            padding: 0.5rem 0.875rem;
+            font-size: 0.8rem;
+            border-radius: 8px;
+        }
+
+        .btn-edit {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.375rem;
+        }
+
+        .btn-edit:hover {
+            background: #2563eb;
+            transform: translateY(-1px);
+        }
+
+        .btn-delete {
+            background: #ef4444;
+            color: white;
+            border: none;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.375rem;
+        }
+
+        .btn-delete:hover {
+            background: #dc2626;
+            transform: translateY(-1px);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: #6b7280;
+        }
+
+        .empty-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1rem;
+            opacity: 0.5;
+        }
+
+        .modal-content {
+            border-radius: 12px;
+            border: none;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .modal-header {
+            border-bottom: 1px solid #f3f4f6;
+            padding: 1.5rem;
+        }
+
+        .modal-title {
+            font-weight: 700;
+            color: #1f2937;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .modal-footer {
+            border-top: 1px solid #f3f4f6;
+            padding: 1.5rem;
+        }
+
+        .btn-secondary {
+            background: #6b7280;
+            border: none;
+            border-radius: 8px;
+            padding: 0.625rem 1.25rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+        }
+
+        .btn-secondary:hover {
+            background: #4b5563;
+            transform: translateY(-1px);
+        }
+
+        /* Image Upload Styles */
+        .image-upload-container {
+            margin-bottom: 1.5rem;
+        }
+
+        .image-upload-area {
+            border: 2px dashed #d1d5db;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            background: #f9fafb;
+            position: relative;
+        }
+
+        .image-upload-area:hover {
+            border-color: #f97316;
+            background: #fff7ed;
+        }
+
+        .image-upload-area.dragover {
+            border-color: #f97316;
+            background: #fff7ed;
+            transform: scale(1.02);
+        }
+
+        .image-upload-area.has-image {
+            padding: 0;
+            border: none;
+            background: transparent;
+        }
+
+        .upload-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .upload-icon {
+            width: 48px;
+            height: 48px;
+            color: #9ca3af;
+        }
+
+        .upload-text {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #374151;
+            margin: 0;
+        }
+
+        .upload-subtext {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin: 0;
+        }
+
+        .image-preview {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            max-height: 300px;
+        }
+
+        .image-preview img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .image-preview-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .image-preview:hover .image-preview-overlay {
+            opacity: 1;
+        }
+
+        .image-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-image-action {
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 8px;
+            padding: 0.5rem;
+            color: #374151;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-image-action:hover {
+            background: white;
+            transform: scale(1.1);
+        }
+
+        .error-message {
+            background: #fee2e2;
+            color: #dc2626;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        .success-message {
+            background: #dcfce7;
+            color: #166534;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        .upload-progress {
+            width: 100%;
+            height: 4px;
+            background: #e5e7eb;
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        .upload-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #f97316, #ea580c);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.show {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .filters-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .page-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .header-actions {
+                justify-content: stretch;
+            }
+
+            .header-actions .btn {
+                flex: 1;
+                justify-content: center;
+            }
+
+            .image-upload-area {
+                padding: 1.5rem;
+            }
+
+            .upload-icon {
+                width: 40px;
+                height: 40px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="d-flex align-items-center">
+                <div class="logo-container">
+                    <svg class="icon-md" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                        stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z" />
+                        <path d="M6 12H4a2 2 0 0 0-2 2v8h20v-8a2 2 0 0 0-2-2h-2" />
+                        <path d="M10 6h4" />
+                        <path d="M10 10h4" />
+                        <path d="M10 14h4" />
+                        <path d="M10 18h4" />
+                    </svg>
+                </div>
+                <div class="logo-text">
+                    <h6 class="mb-0 fw-bold" style="font-size: 0.9rem;">Ngwe Pone Gyi</h6>
+                    <small class="text-muted" style="font-size: 0.75rem;">Construction Sales</small>
+                </div>
+            </div>
+            <button class="sidebar-toggle" id="sidebarToggle">
+                <svg class="icon-sm" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="4" y1="6" x2="20" y2="6" />
+                    <line x1="4" y1="12" x2="20" y2="12" />
+                    <line x1="4" y1="18" x2="20" y2="18" />
+                </svg>
+            </button>
+        </div>
+
+        <div class="sidebar-menu">
+            <a href="dashboard.html" class="menu-item">
+                <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect width="7" height="9" x="3" y="3" rx="1" />
+                    <rect width="7" height="5" x="14" y="3" rx="1" />
+                    <rect width="7" height="9" x="14" y="12" rx="1" />
+                    <rect width="7" height="5" x="3" y="16" rx="1" />
+                </svg>
+                <span class="menu-text">Dashboard</span>
+            </a>
+            <a href="products.html" class="menu-item active">
+                <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9Z" />
+                    <path d="m3 9 2.45-4.9A2 2 0 0 1 7.24 3h9.52a2 2 0 0 1 1.8 1.1L21 9" />
+                    <path d="M12 3v6" />
+                </svg>
+                <span class="menu-text">Products</span>
+            </a>
+            <a href="orders.html" class="menu-item">
+                <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" />
+                    <path d="M3 6h18" />
+                    <path d="M16 10a4 4 0 0 1-8 0" />
+                </svg>
+                <span class="menu-text">Orders</span>
+                <span class="order-badge" id="orderBadge">0</span>
+            </a>
+            <a href="inventory.html" class="menu-item">
+                <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path
+                        d="M22 8.35V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8.35A2 2 0 0 1 3.26 6.5l8-3.2a2 2 0 0 1 1.48 0l8 3.2A2 2 0 0 1 22 8.35Z" />
+                    <path d="M6 18h12" />
+                    <path d="M6 14h12" />
+                    <rect width="12" height="12" x="6" y="10" />
+                </svg>
+                <span class="menu-text">Inventory</span>
+            </a>
+            <a href="users.html" class="menu-item">
+                <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                    <circle cx="9" cy="7" r="4" />
+                    <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                </svg>
+                <span class="menu-text">Users</span>
+            </a>
+        </div>
+
+        <div class="sidebar-footer">
+            <button class="logout-btn" onclick="logout()">
+                <svg class="icon-sm" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                    <polyline points="16,17 21,12 16,7" />
+                    <line x1="21" y1="12" x2="9" y2="12" />
+                </svg>
+                <span class="menu-text">Logout</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <div class="page-header">
+            <div>
+                <h1 class="page-title">Products</h1>
+                <p class="page-subtitle">Manage your construction materials and supplies</p>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-outline-primary" onclick="exportProducts()">
+                    <svg class="icon-sm" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                        <polyline points="7,10 12,15 17,10" />
+                        <line x1="12" y1="15" x2="12" y2="3" />
+                    </svg>
+                    Export
+                </button>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#productModal"
+                    onclick="openAddProductModal()">
+                    <svg class="icon-sm" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="12" y1="5" x2="12" y2="19" />
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                    </svg>
+                    Add Product
+                </button>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="filters-section">
+            <div class="filters-grid">
+                <div class="form-group">
+                    <label class="form-label">Search Products</label>
+                    <input type="text" class="form-control" id="searchInput"
+                        placeholder="Search by name, brand, or ID...">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Category</label>
+                    <select class="form-select" id="categoryFilter">
+                        <option value="">All Categories</option>
+                        <option value="cement">Cement</option>
+                        <option value="steel">Steel</option>
+                        <option value="bricks">Bricks</option>
+                        <option value="sand">Sand & Aggregates</option>
+                        <option value="paint">Paint</option>
+                        <option value="tools">Tools</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Status</label>
+                    <select class="form-select" id="statusFilter">
+                        <option value="">All Status</option>
+                        <option value="active">Active</option>
+                        <option value="low stock">Low Stock</option>
+                        <option value="out of stock">Out of Stock</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Sort By</label>
+                    <select class="form-select" id="sortBy">
+                        <option value="name">Name</option>
+                        <option value="price">Price</option>
+                        <option value="quantity">Stock</option>
+                        <option value="category">Category</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Products Grid -->
+        <div class="products-grid" id="productsGrid">
+            <!-- Products will be loaded here -->
+        </div>
+    </div>
+
+    <!-- Product Modal -->
+    <div class="modal fade" id="productModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitle">Add New Product</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="productForm">
+                        <!-- Image Upload Section -->
+                        <div class="image-upload-container">
+                            <label class="form-label">Product Image</label>
+                            <div class="image-upload-area" id="imageUploadArea">
+                                <div class="upload-placeholder" id="uploadPlaceholder">
+                                    <svg class="upload-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                                        <polyline points="17,8 12,3 7,8" />
+                                        <line x1="12" y1="3" x2="12" y2="15" />
+                                    </svg>
+                                    <p class="upload-text">Click to upload or drag and drop</p>
+                                    <p class="upload-subtext">PNG, JPG, JPEG up to 5MB</p>
+                                </div>
+                                <div class="image-preview" id="imagePreview" style="display: none;">
+                                    <img id="previewImage" src="/placeholder.svg" alt="Product preview">
+                                    <div class="image-preview-overlay">
+                                        <div class="image-actions">
+                                            <button type="button" class="btn-image-action" onclick="changeImage()">
+                                                <svg class="icon-sm" xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path
+                                                        d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                                                </svg>
+                                            </button>
+                                            <button type="button" class="btn-image-action" onclick="removeImage()">
+                                                <svg class="icon-sm" xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <polyline points="3,6 5,6 21,6" />
+                                                    <path
+                                                        d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="file" id="imageInput" accept="image/png,image/jpeg,image/jpg"
+                                style="display: none;">
+                            <div class="upload-progress" id="uploadProgress">
+                                <div class="upload-progress-bar" id="uploadProgressBar"></div>
+                            </div>
+                            <div class="error-message" id="imageError"></div>
+                            <div class="success-message" id="imageSuccess"></div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label class="form-label">Product ID</label>
+                                    <input type="text" class="form-control" id="productId" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label class="form-label">Product Name</label>
+                                    <input type="text" class="form-control" id="productName" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label class="form-label">Brand</label>
+                                    <input type="text" class="form-control" id="productBrand" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label class="form-label">Category</label>
+                                    <select class="form-select" id="productCategory" required>
+                                        <option value="">Select Category</option>
+                                        <option value="cement">Cement</option>
+                                        <option value="steel">Steel</option>
+                                        <option value="bricks">Bricks</option>
+                                        <option value="sand">Sand & Aggregates</option>
+                                        <option value="paint">Paint</option>
+                                        <option value="tools">Tools</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label class="form-label">Price ($)</label>
+                                    <input type="number" class="form-control" id="productPrice" step="0.01" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label class="form-label">Quantity</label>
+                                    <input type="number" class="form-control" id="productQuantity" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="form-label">Description</label>
+                            <textarea class="form-control" id="productDescription" rows="3"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="saveProduct()">
+                        <span id="saveButtonText">Save Product</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Check authentication
+        if (localStorage.getItem('isLoggedIn') !== 'true') {
+            window.location.href = 'index.html';
+        }
+
+        let products = [];
+        let editingProductId = null;
+        let currentImageData = null;
+
+        // Sidebar toggle functionality
+        const sidebar = document.getElementById('sidebar');
+        const mainContent = document.getElementById('mainContent');
+        const sidebarToggle = document.getElementById('sidebarToggle');
+
+        sidebarToggle.addEventListener('click', function () {
+            sidebar.classList.toggle('collapsed');
+            mainContent.classList.toggle('expanded');
+            localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
+        });
+
+        // Restore sidebar state
+        if (localStorage.getItem('sidebarCollapsed') === 'true') {
+            sidebar.classList.add('collapsed');
+            mainContent.classList.add('expanded');
+        }
+
+        // Logout function
+        function logout() {
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('sidebarCollapsed');
+            window.location.href = 'index.html';
+        }
+
+        // Image Upload Functionality
+        function initializeImageUpload() {
+            const uploadArea = document.getElementById('imageUploadArea');
+            const fileInput = document.getElementById('imageInput');
+            const imagePreview = document.getElementById('imagePreview');
+            const uploadPlaceholder = document.getElementById('uploadPlaceholder');
+            const previewImage = document.getElementById('previewImage');
+            const errorDiv = document.getElementById('imageError');
+            const successDiv = document.getElementById('imageSuccess');
+            const progressDiv = document.getElementById('uploadProgress');
+            const progressBar = document.getElementById('uploadProgressBar');
+
+            // Click to upload
+            uploadArea.addEventListener('click', function (e) {
+                if (!e.target.closest('.image-actions')) {
+                    fileInput.click();
+                }
+            });
+
+            // Drag and drop functionality
+            uploadArea.addEventListener('dragover', function (e) {
+                e.preventDefault();
+                uploadArea.classList.add('dragover');
+            });
+
+            uploadArea.addEventListener('dragleave', function (e) {
+                e.preventDefault();
+                uploadArea.classList.remove('dragover');
+            });
+
+            uploadArea.addEventListener('drop', function (e) {
+                e.preventDefault();
+                uploadArea.classList.remove('dragover');
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    handleImageUpload(files[0]);
+                }
+            });
+
+            // File input change
+            fileInput.addEventListener('change', function (e) {
+                if (e.target.files.length > 0) {
+                    handleImageUpload(e.target.files[0]);
+                }
+            });
+
+            function handleImageUpload(file) {
+                // Hide previous messages
+                hideMessages();
+
+                // Validate file type
+                const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg'];
+                if (!allowedTypes.includes(file.type)) {
+                    showError('Please select a valid image file (PNG, JPG, JPEG)');
+                    return;
+                }
+
+                // Validate file size (5MB limit)
+                const maxSize = 5 * 1024 * 1024; // 5MB in bytes
+                if (file.size > maxSize) {
+                    showError('File size must be less than 5MB');
+                    return;
+                }
+
+                // Show progress
+                showProgress();
+
+                // Simulate upload progress
+                let progress = 0;
+                const progressInterval = setInterval(() => {
+                    progress += Math.random() * 30;
+                    if (progress > 90) progress = 90;
+                    updateProgress(progress);
+                }, 100);
+
+                // Read file as base64
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    clearInterval(progressInterval);
+                    updateProgress(100);
+
+                    setTimeout(() => {
+                        currentImageData = e.target.result;
+                        previewImage.src = currentImageData;
+
+                        // Show preview, hide placeholder
+                        uploadPlaceholder.style.display = 'none';
+                        imagePreview.style.display = 'block';
+                        uploadArea.classList.add('has-image');
+
+                        hideProgress();
+                        showSuccess('Image uploaded successfully!');
+
+                        // Hide success message after 3 seconds
+                        setTimeout(() => {
+                            hideMessages();
+                        }, 3000);
+                    }, 500);
+                };
+
+                reader.onerror = function () {
+                    clearInterval(progressInterval);
+                    hideProgress();
+                    showError('Error reading file. Please try again.');
+                };
+
+                reader.readAsDataURL(file);
+            }
+
+            function showError(message) {
+                errorDiv.textContent = message;
+                errorDiv.style.display = 'block';
+                successDiv.style.display = 'none';
+            }
+
+            function showSuccess(message) {
+                successDiv.textContent = message;
+                successDiv.style.display = 'block';
+                errorDiv.style.display = 'none';
+            }
+
+            function hideMessages() {
+                errorDiv.style.display = 'none';
+                successDiv.style.display = 'none';
+            }
+
+            function showProgress() {
+                progressDiv.style.display = 'block';
+                progressBar.style.width = '0%';
+            }
+
+            function updateProgress(percent) {
+                progressBar.style.width = percent + '%';
+            }
+
+            function hideProgress() {
+                progressDiv.style.display = 'none';
+            }
+        }
+
+        // Change image function
+        function changeImage() {
+            document.getElementById('imageInput').click();
+        }
+
+        // Remove image function
+        function removeImage() {
+            const uploadArea = document.getElementById('imageUploadArea');
+            const imagePreview = document.getElementById('imagePreview');
+            const uploadPlaceholder = document.getElementById('uploadPlaceholder');
+            const fileInput = document.getElementById('imageInput');
+
+            currentImageData = null;
+            fileInput.value = '';
+
+            imagePreview.style.display = 'none';
+            uploadPlaceholder.style.display = 'flex';
+            uploadArea.classList.remove('has-image');
+
+            document.getElementById('imageError').style.display = 'none';
+            document.getElementById('imageSuccess').style.display = 'none';
+        }
+
+        // Load products from localStorage
+        function loadProducts() {
+            products = JSON.parse(localStorage.getItem('products') || '[]');
+
+            // Initialize with sample data if empty
+            if (products.length === 0) {
+                initializeSampleProducts();
+            }
+
+            updateOrderBadge();
+            renderProducts();
+        }
+
+        // Initialize sample products
+        function initializeSampleProducts() {
+            products = [
+                {
+                    id: 'P001',
+                    name: 'Portland Cement 50kg',
+                    brand: 'Diamond Cement',
+                    category: 'cement',
+                    price: 25.50,
+                    quantity: 150,
+                    description: 'High quality Portland cement for construction',
+                    image: '',
+                    status: 'active'
+                },
+                {
+                    id: 'P002',
+                    name: 'Steel Rebar 12mm',
+                    brand: 'SteelCorp',
+                    category: 'steel',
+                    price: 45.00,
+                    quantity: 8,
+                    description: 'Reinforcement steel bar for concrete structures',
+                    image: '',
+                    status: 'low stock'
+                },
+                {
+                    id: 'P003',
+                    name: 'Red Clay Bricks',
+                    brand: 'BrickMaster',
+                    category: 'bricks',
+                    price: 0.50,
+                    quantity: 5000,
+                    description: 'Standard red clay bricks for construction',
+                    image: '',
+                    status: 'active'
+                }
+            ];
+            localStorage.setItem('products', JSON.stringify(products));
+        }
+
+        // Update order badge
+        function updateOrderBadge() {
+            const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+            const pendingOrders = orders.filter(order => order.status === 'pending').length;
+            document.getElementById('orderBadge').textContent = pendingOrders;
+        }
+
+        // Render products
+        function renderProducts() {
+            const grid = document.getElementById('productsGrid');
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const categoryFilter = document.getElementById('categoryFilter').value;
+            const statusFilter = document.getElementById('statusFilter').value;
+            const sortBy = document.getElementById('sortBy').value;
+
+            let filteredProducts = products.filter(product => {
+                const matchesSearch = product.name.toLowerCase().includes(searchTerm) ||
+                    product.brand.toLowerCase().includes(searchTerm) ||
+                    product.id.toLowerCase().includes(searchTerm);
+                const matchesCategory = !categoryFilter || product.category === categoryFilter;
+                const matchesStatus = !statusFilter || product.status === statusFilter;
+
+                return matchesSearch && matchesCategory && matchesStatus;
+            });
+
+            // Sort products
+            filteredProducts.sort((a, b) => {
+                switch (sortBy) {
+                    case 'name':
+                        return a.name.localeCompare(b.name);
+                    case 'price':
+                        return a.price - b.price;
+                    case 'quantity':
+                        return b.quantity - a.quantity;
+                    case 'category':
+                        return a.category.localeCompare(b.category);
+                    default:
+                        return 0;
+                }
+            });
+
+            if (filteredProducts.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state" style="grid-column: 1 / -1;">
+                        <svg class="empty-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#d1d5db" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9Z"/>
+                            <path d="m3 9 2.45-4.9A2 2 0 0 1 7.24 3h9.52a2 2 0 0 1 1.8 1.1L21 9"/>
+                            <path d="M12 3v6"/>
+                        </svg>
+                        <h5>No products found</h5>
+                        <p>Try adjusting your search or filter criteria</p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = filteredProducts.map(product => {
+                const statusClass = product.quantity === 0 ? 'status-out' :
+                    product.quantity <= 10 ? 'status-low' : 'status-active';
+                const statusText = product.quantity === 0 ? 'Out of Stock' :
+                    product.quantity <= 10 ? 'Low Stock' : 'In Stock';
+
+                const imageContent = product.image ?
+                    `<img src="${product.image}" alt="${product.name}">` :
+                    `<svg class="icon-xl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9Z"/>
+                        <path d="m3 9 2.45-4.9A2 2 0 0 1 7.24 3h9.52a2 2 0 0 1 1.8 1.1L21 9"/>
+                        <path d="M12 3v6"/>
+                    </svg>`;
+
+                return `
+                    <div class="product-card">
+                        <div class="product-image">
+                            ${imageContent}
+                            <span class="product-status ${statusClass}">${statusText}</span>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-category">${product.category}</div>
+                            <h6 class="product-name">${product.name}</h6>
+                            <div class="product-brand">${product.brand}</div>
+                            <p class="product-description">${product.description}</p>
+                            <div class="product-details">
+                                <div class="product-price">$${product.price.toFixed(2)}</div>
+                                <div class="product-stock">Stock: ${product.quantity}</div>
+                            </div>
+                            <div class="product-actions">
+                                <button class="btn btn-edit btn-sm" onclick="editProduct('${product.id}')">
+                                    <svg class="icon-xs" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                                    </svg>
+                                    Edit
+                                </button>
+                                <button class="btn btn-delete btn-sm" onclick="deleteProduct('${product.id}')">
+                                    <svg class="icon-xs" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="3,6 5,6 21,6"/>
+                                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                                        <line x1="10" y1="11" x2="10" y2="17"/>
+                                        <line x1="14" y1="11" x2="14" y2="17"/>
+                                    </svg>
+                                    Delete
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Open add product modal
+        function openAddProductModal() {
+            editingProductId = null;
+            currentImageData = null;
+            document.getElementById('modalTitle').textContent = 'Add New Product';
+            document.getElementById('saveButtonText').textContent = 'Save Product';
+            document.getElementById('productForm').reset();
+            document.getElementById('productId').disabled = false;
+
+            // Reset image upload area
+            removeImage();
+        }
+
+        // Edit product
+        function editProduct(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            editingProductId = productId;
+            currentImageData = product.image;
+            document.getElementById('modalTitle').textContent = 'Edit Product';
+            document.getElementById('saveButtonText').textContent = 'Update Product';
+
+            document.getElementById('productId').value = product.id;
+            document.getElementById('productName').value = product.name;
+            document.getElementById('productBrand').value = product.brand;
+            document.getElementById('productCategory').value = product.category;
+            document.getElementById('productPrice').value = product.price;
+            document.getElementById('productQuantity').value = product.quantity;
+            document.getElementById('productDescription').value = product.description;
+
+            document.getElementById('productId').disabled = true;
+
+            // Set up image preview if product has image
+            if (product.image) {
+                const uploadArea = document.getElementById('imageUploadArea');
+                const imagePreview = document.getElementById('imagePreview');
+                const uploadPlaceholder = document.getElementById('uploadPlaceholder');
+                const previewImage = document.getElementById('previewImage');
+
+                previewImage.src = product.image;
+                uploadPlaceholder.style.display = 'none';
+                imagePreview.style.display = 'block';
+                uploadArea.classList.add('has-image');
+            } else {
+                removeImage();
+            }
+
+            const modal = new bootstrap.Modal(document.getElementById('productModal'));
+            modal.show();
+        }
+
+        // Save product
+        function saveProduct() {
+            const form = document.getElementById('productForm');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            const productData = {
+                id: document.getElementById('productId').value,
+                name: document.getElementById('productName').value,
+                brand: document.getElementById('productBrand').value,
+                category: document.getElementById('productCategory').value,
+                price: parseFloat(document.getElementById('productPrice').value),
+                quantity: parseInt(document.getElementById('productQuantity').value),
+                description: document.getElementById('productDescription').value,
+                image: currentImageData || ''
+            };
+
+            // Determine status based on quantity
+            if (productData.quantity === 0) {
+                productData.status = 'out of stock';
+            } else if (productData.quantity <= 10) {
+                productData.status = 'low stock';
+            } else {
+                productData.status = 'active';
+            }
+
+            if (editingProductId) {
+                // Update existing product
+                const index = products.findIndex(p => p.id === editingProductId);
+                if (index !== -1) {
+                    products[index] = productData;
+                }
+            } else {
+                // Add new product
+                if (products.find(p => p.id === productData.id)) {
+                    alert('Product ID already exists!');
+                    return;
+                }
+                products.push(productData);
+            }
+
+            localStorage.setItem('products', JSON.stringify(products));
+            renderProducts();
+
+            const modal = bootstrap.Modal.getInstance(document.getElementById('productModal'));
+            modal.hide();
+        }
+
+        // Delete product
+        function deleteProduct(productId) {
+            if (confirm('Are you sure you want to delete this product?')) {
+                products = products.filter(p => p.id !== productId);
+                localStorage.setItem('products', JSON.stringify(products));
+                renderProducts();
+            }
+        }
+
+        // Export products
+        function exportProducts() {
+            const csvContent = "data:text/csv;charset=utf-8," +
+                "ID,Name,Brand,Category,Price,Quantity,Status,Description\n" +
+                products.map(p => `${p.id},"${p.name}","${p.brand}",${p.category},${p.price},${p.quantity},${p.status},"${p.description}"`).join('\n');
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement('a');
+            link.setAttribute('href', encodedUri);
+            link.setAttribute('download', 'products.csv');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Event listeners
+        document.getElementById('searchInput').addEventListener('input', renderProducts);
+        document.getElementById('categoryFilter').addEventListener('change', renderProducts);
+        document.getElementById('statusFilter').addEventListener('change', renderProducts);
+        document.getElementById('sortBy').addEventListener('change', renderProducts);
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function () {
+            loadProducts();
+            initializeImageUpload();
+        });
+    </script>
+</body>
+
+</html>
